@@ -28,5 +28,7 @@ func RegisterAllTools(mcpServer *server.MCPServer, cfg *config.Config) error {
 
 	RegisterApiKeyTools(mcpServer, cfg, clientManager)
 
+	RegisterServiceAccountTools(mcpServer, cfg, clientManager)
+
 	return nil
 }
