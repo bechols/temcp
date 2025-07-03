@@ -16,18 +16,18 @@ func RegisterAllTools(mcpServer *server.MCPServer, cfg *config.Config) error {
 
 	// Register user management tools (simple version for Phase 2)
 	RegisterUserToolsSimple(mcpServer, cfg, clientManager)
-	
+
 	// Register namespace management tools (Phase 3)
 	RegisterNamespaceToolsImpl(mcpServer, cfg, clientManager)
-	
+
 	// Register region management tools (Phase 3)
 	RegisterRegionToolsImpl(mcpServer, cfg, clientManager)
-	
+
 	// Register async operation tools (Phase 3)
 	RegisterOperationToolsImpl(mcpServer, cfg, clientManager)
-	
+
 	// Register export processing tools (Phase 3)
 	RegisterExportToolsImpl(mcpServer, cfg, clientManager)
-	
+
 	return nil
 }

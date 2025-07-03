@@ -95,7 +95,7 @@ func handleGetUserSimple(ctx context.Context, request mcp.CallToolRequest, clien
 			resultData = user
 		}
 	}
-	
+
 	resultJSON, err := json.MarshalIndent(resultData, "", "  ")
 	if err != nil {
 		return &mcp.CallToolResult{
@@ -121,13 +121,13 @@ func handleGetUserSimple(ctx context.Context, request mcp.CallToolRequest, clien
 
 func handleListUsersSimple(ctx context.Context, request mcp.CallToolRequest, clientManager *clients.ClientManager) (*mcp.CallToolResult, error) {
 	arguments := request.GetArguments()
-	
+
 	// Extract optional pagination parameters
 	var pageSize int32 = 50 // default
 	if ps, ok := arguments["page_size"].(float64); ok {
 		pageSize = int32(ps)
 	}
-	
+
 	pageToken := ""
 	if token, ok := arguments["page_token"].(string); ok {
 		pageToken = token

@@ -116,7 +116,7 @@ func handleProcessExportImpl(ctx context.Context, request mcp.CallToolRequest, c
 		// Format as human-readable for the first workflow
 		firstWorkflow := workflowExecutions.Items[0]
 		resultText = export.FormatWorkflow(firstWorkflow)
-		
+
 		if includeMetadata {
 			metadata, err := export.GetExportedWorkflowInformation(firstWorkflow)
 			if err == nil {
@@ -130,7 +130,7 @@ func handleProcessExportImpl(ctx context.Context, request mcp.CallToolRequest, c
 			// Add metadata summary
 			metadata := make(map[string]interface{})
 			metadata["total_workflows"] = len(workflowExecutions.Items)
-			
+
 			if len(workflowExecutions.Items) > 0 {
 				firstWorkflow := workflowExecutions.Items[0]
 				workflowInfo, err := export.GetExportedWorkflowInformation(firstWorkflow)
@@ -138,10 +138,10 @@ func handleProcessExportImpl(ctx context.Context, request mcp.CallToolRequest, c
 					metadata["first_workflow_info"] = workflowInfo
 				}
 			}
-			
+
 			// Wrap result with metadata
 			result = map[string]interface{}{
-				"metadata": metadata,
+				"metadata":  metadata,
 				"workflows": workflowExecutions,
 			}
 		}
@@ -241,7 +241,7 @@ func handleAnalyzeExportImpl(ctx context.Context, request mcp.CallToolRequest, c
 		workflowAnalysis := map[string]interface{}{
 			"index": i,
 		}
-		
+
 		if err == nil {
 			workflowAnalysis["info"] = workflowInfo
 		} else {

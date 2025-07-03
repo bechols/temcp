@@ -1,10 +1,6 @@
 #!/bin/bash
 
-# Sample usage: export TEMPORAL_CLOUD_API_KEY="api-key" && ./test_mcp.sh │ list_namespaces | ./mcp-server       
-
-# Export API key
-
-export TEMPORAL_CLOUD_API_KEY="api-key-here"
+# Sample usage: export TEMPORAL_CLOUD_API_KEY="api-key" && ./test_mcp.sh │ list_namespaces | ./mcp-server
 
 # Function to run initialization
 init_server() {

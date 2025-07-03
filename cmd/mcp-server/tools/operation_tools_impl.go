@@ -158,8 +158,8 @@ func handleWaitForOperationImpl(ctx context.Context, request mcp.CallToolRequest
 			}
 
 			// Check if operation is complete
-			if opResult.AsyncOperation.State != operation.AsyncOperation_STATE_PENDING && 
-			   opResult.AsyncOperation.State != operation.AsyncOperation_STATE_IN_PROGRESS {
+			if opResult.AsyncOperation.State != operation.AsyncOperation_STATE_PENDING &&
+				opResult.AsyncOperation.State != operation.AsyncOperation_STATE_IN_PROGRESS {
 				// Operation completed (success or failure)
 				result = opResult
 				break

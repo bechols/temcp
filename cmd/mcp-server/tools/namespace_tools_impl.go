@@ -39,7 +39,6 @@ func RegisterNamespaceToolsImpl(mcpServer *server.MCPServer, cfg *config.Config,
 		},
 	)
 
-
 	// Register temporal_create_namespace tool
 	mcpServer.AddTool(
 		mcp.NewTool("temporal_create_namespace",
@@ -130,7 +129,7 @@ func handleGetNamespace(ctx context.Context, request mcp.CallToolRequest, client
 			resultData = result
 		}
 	}
-	
+
 	resultJSON, err := json.MarshalIndent(resultData, "", "  ")
 	if err != nil {
 		return &mcp.CallToolResult{
@@ -218,7 +217,6 @@ func handleListNamespaces(ctx context.Context, request mcp.CallToolRequest, clie
 		},
 	}, nil
 }
-
 
 func handleCreateNamespace(ctx context.Context, request mcp.CallToolRequest, clientManager *clients.ClientManager) (*mcp.CallToolResult, error) {
 	arguments := request.GetArguments()

@@ -55,7 +55,7 @@ func NewClientManager(cfg *config.Config) (*ClientManager, error) {
 		// Create and start worker
 		cm.worker = worker.New(temporalClient, "mcp-task-queue", worker.Options{})
 		workflows.Register(cm.worker, cm.workflows, cm.activities)
-		
+
 		// Start worker in background
 		go func() {
 			err := cm.worker.Run(worker.InterruptCh())

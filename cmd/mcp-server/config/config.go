@@ -11,26 +11,26 @@ type Config struct {
 	CloudAPIKey string
 
 	// Temporal namespace configuration
-	Namespace         string
-	NamespaceAPIKey   string
-	NamespaceTLSCert  string
-	NamespaceTLSKey   string
+	Namespace        string
+	NamespaceAPIKey  string
+	NamespaceTLSCert string
+	NamespaceTLSKey  string
 
 	// MCP server configuration
-	ServerName string
+	ServerName    string
 	ServerVersion string
 }
 
 // LoadFromEnv loads configuration from environment variables
 func LoadFromEnv() (*Config, error) {
 	config := &Config{
-		CloudAPIKey:       os.Getenv("TEMPORAL_CLOUD_API_KEY"),
-		Namespace:         os.Getenv("TEMPORAL_CLOUD_NAMESPACE"),
-		NamespaceAPIKey:   os.Getenv("TEMPORAL_CLOUD_NAMESPACE_API_KEY"),
-		NamespaceTLSCert:  os.Getenv("TEMPORAL_CLOUD_NAMESPACE_TLS_CERT"),
-		NamespaceTLSKey:   os.Getenv("TEMPORAL_CLOUD_NAMESPACE_TLS_KEY"),
-		ServerName:        getEnvOrDefault("MCP_SERVER_NAME", "temporal-cloud-mcp-server"),
-		ServerVersion:     getEnvOrDefault("MCP_SERVER_VERSION", "1.0.0"),
+		CloudAPIKey:      os.Getenv("TEMPORAL_CLOUD_API_KEY"),
+		Namespace:        os.Getenv("TEMPORAL_CLOUD_NAMESPACE"),
+		NamespaceAPIKey:  os.Getenv("TEMPORAL_CLOUD_NAMESPACE_API_KEY"),
+		NamespaceTLSCert: os.Getenv("TEMPORAL_CLOUD_NAMESPACE_TLS_CERT"),
+		NamespaceTLSKey:  os.Getenv("TEMPORAL_CLOUD_NAMESPACE_TLS_KEY"),
+		ServerName:       getEnvOrDefault("MCP_SERVER_NAME", "temporal-cloud-mcp-server"),
+		ServerVersion:    getEnvOrDefault("MCP_SERVER_VERSION", "1.0.0"),
 	}
 
 	// Validate required configuration
