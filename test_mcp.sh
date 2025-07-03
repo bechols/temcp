@@ -57,6 +57,12 @@ test_get_operation() {
     echo '{"jsonrpc": "2.0", "id": 9, "method": "tools/call", "params": {"name": "temporal_get_async_operation", "arguments": {"operation_id": "test-operation-id"}}}'
 }
 
+# Connection info tools
+test_connection_info() {
+    init_server
+    echo '{"jsonrpc": "2.0", "id": 10, "method": "tools/call", "params": {"name": "temporal_cloud_connection_info", "arguments": {}}}'
+}
+
 # Show usage if no arguments
 show_usage() {
     echo "Usage: $0 [command]"
@@ -71,6 +77,7 @@ show_usage() {
     echo "  test_get_namespace - Test temporal_get_namespace tool"
     echo "  test_create_namespace - Test temporal_create_namespace tool (with API key auth default)"
     echo "  test_get_operation - Test temporal_get_async_operation tool"
+    echo "  test_connection_info - Test temporal_cloud_connection_info tool"
     echo "  all               - Run all tests"
     echo ""
     echo "Example usage:"
@@ -117,6 +124,9 @@ case "${1:-}" in
         ;;
     "test_get_operation")
         test_get_operation
+        ;;
+    "test_connection_info")
+        test_connection_info
         ;;
     "all")
         run_all_tests

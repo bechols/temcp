@@ -32,5 +32,7 @@ func RegisterAllTools(mcpServer *server.MCPServer, cfg *config.Config) error {
 
 	RegisterNamespaceServiceAccountAccessTools(mcpServer, cfg, clientManager)
 
+	RegisterConnectionInfoTools(mcpServer, cfg, clientManager)
+
 	return nil
 }

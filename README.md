@@ -95,6 +95,9 @@ go build -o mcp-server ./cmd/mcp-server
 - `temporal_get_service_account_namespace_access` - Get namespace access permissions for a service account
 - `temporal_set_service_account_namespace_access` - Set namespace access permissions for a service account
 
+**Cloud Connection Info:**
+- `temporal_cloud_connection_info` - How to configure connections to Temporal Cloud
+
 **Export Processing:** (untested as of July 2)
 - `temporal_process_export` - Process exported workflow history files
 - `temporal_analyze_export` - Analyze exported workflows and extract summaries
