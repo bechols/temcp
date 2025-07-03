@@ -428,11 +428,74 @@ func handleDeleteNamespace(ctx context.Context, request mcp.CallToolRequest, cli
 		}, nil
 	}
 
-	deleteReq := &cloudservice.DeleteNamespaceRequest{
+	// First, get the namespace to obtain its resource version
+	getNamespaceReq := &cloudservice.GetNamespaceRequest{
 		Namespace: namespaceName,
 	}
-	var result interface{}
+	var getResult interface{}
 	var err error
+
+	// Use workflow if Temporal client is available, otherwise call API directly
+	if clientManager.GetTemporalClient() != nil {
+		// Use the existing GetNamespace workflow
+		getResult, err = clientManager.ExecuteWorkflow(ctx, workflows.GetNamespaceWorkflowType, getNamespaceReq)
+	} else {
+		// Call GetNamespace through cloud client
+		cloudClient := clientManager.GetCloudClient()
+		getResult, err = cloudClient.CloudService().GetNamespace(ctx, getNamespaceReq)
+	}
+	if err != nil {
+		return &mcp.CallToolResult{
+			IsError: true,
+			Content: []mcp.Content{
+				mcp.TextContent{
+					Type: "text",
+					Text: fmt.Sprintf("Error getting namespace before deletion: %v", err),
+				},
+			},
+		}, nil
+	}
+
+	// Extract the resource version
+	var resourceVersion string
+	if clientManager.GetTemporalClient() != nil {
+		// Workflow returns a GetNamespaceResponse
+		if nsResponse, ok := getResult.(*cloudservice.GetNamespaceResponse); ok {
+			resourceVersion = nsResponse.Namespace.ResourceVersion
+		} else {
+			return &mcp.CallToolResult{
+				IsError: true,
+				Content: []mcp.Content{
+					mcp.TextContent{
+						Type: "text",
+						Text: "Error: unable to extract namespace from workflow result",
+					},
+				},
+			}, nil
+		}
+	} else {
+		// Direct API call returns a response with .Namespace field
+		if nsResponse, ok := getResult.(*cloudservice.GetNamespaceResponse); ok {
+			resourceVersion = nsResponse.Namespace.ResourceVersion
+		} else {
+			return &mcp.CallToolResult{
+				IsError: true,
+				Content: []mcp.Content{
+					mcp.TextContent{
+						Type: "text",
+						Text: "Error: unable to extract namespace from API response",
+					},
+				},
+			}, nil
+		}
+	}
+
+	// Now delete the namespace with the resource version
+	deleteReq := &cloudservice.DeleteNamespaceRequest{
+		Namespace:       namespaceName,
+		ResourceVersion: resourceVersion,
+	}
+	var result interface{}
 
 	// Use workflow if Temporal client is available, otherwise call API directly
 	if clientManager.GetTemporalClient() != nil {
