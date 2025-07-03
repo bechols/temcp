@@ -55,7 +55,7 @@ go build -o mcp-server ./cmd/mcp-server
 
 ## Available Commands
 
-The MCP server provides 17 tools for managing Temporal Cloud resources:
+The MCP server provides 18 tools for managing Temporal Cloud resources:
 
 **User Info:**
 - `temporal_get_user` - Get user details by ID
@@ -63,6 +63,9 @@ The MCP server provides 17 tools for managing Temporal Cloud resources:
 
 **Account Access Info:**
 - `temporal_get_account_access` - Get a user's account-level access role (owner, admin, developer, finance_admin, read)
+
+**API Key Creation:**
+- `temporal_create_api_key` - Create a new API key for a user or service account
 
 **Namespace Access Management:**
 - `temporal_get_user_namespace_access` - Get a user's access level for a specific namespace
