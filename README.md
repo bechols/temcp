@@ -54,7 +54,7 @@ go build -o mcp-server ./cmd/mcp-server
 
 ## Available Commands
 
-The MCP server provides 18 tools for managing Temporal Cloud resources:
+The MCP server provides 21 tools for managing Temporal Cloud resources:
 
 **User Info:**
 - `temporal_get_user` - Get user details by ID
@@ -84,6 +84,11 @@ The MCP server provides 18 tools for managing Temporal Cloud resources:
 **Async Operations:** (not tested as of July 2)
 - `temporal_get_async_operation` - Get async operation status
 - `temporal_wait_for_operation` - Wait for async operation completion
+
+**Service Account Management:**
+- `temporal_list_service_accounts` - List Temporal Cloud service accounts with pagination
+- `temporal_get_service_account_namespace_access` - Get namespace access permissions for a service account
+- `temporal_set_service_account_namespace_access` - Set namespace access permissions for a service account
 
 **Export Processing:** (not tested as of July 2)
 - `temporal_process_export` - Process exported workflow history files
