@@ -121,9 +121,9 @@ func handleCreateApiKey(ctx context.Context, request mcp.CallToolRequest, client
 	var ownerTypeEnum identityv1.OwnerType
 	switch ownerType {
 	case "user":
-		ownerTypeEnum = identityv1.OWNER_TYPE_USER
+		ownerTypeEnum = identityv1.OwnerType_OWNER_TYPE_USER
 	case "service-account":
-		ownerTypeEnum = identityv1.OWNER_TYPE_SERVICE_ACCOUNT
+		ownerTypeEnum = identityv1.OwnerType_OWNER_TYPE_SERVICE_ACCOUNT
 	default:
 		return &mcp.CallToolResult{
 			IsError: true,
