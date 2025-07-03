@@ -260,6 +260,13 @@ func handleCreateNamespace(ctx context.Context, request mcp.CallToolRequest, cli
 		}, nil
 	}
 
+	// Default to enabling API key auth if not explicitly set
+	if namespaceSpec.ApiKeyAuth == nil {
+		namespaceSpec.ApiKeyAuth = &namespace.ApiKeyAuthSpec{
+			Enabled: true,
+		}
+	}
+
 	var result interface{}
 	var err error
 

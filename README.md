@@ -78,7 +78,7 @@ go build -o mcp-server ./cmd/mcp-server
 **Namespace Management:**
 - `temporal_get_namespace` - Get namespace details by name
 - `temporal_list_namespaces` - List namespaces
-- `temporal_create_namespace` - Create a new namespace
+- `temporal_create_namespace` - Create a new namespace (defaults to API key auth enabled)
 - `temporal_update_namespace` - Update an existing namespace
 - `temporal_delete_namespace` - Delete a namespace
 

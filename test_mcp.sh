@@ -46,6 +46,11 @@ test_get_namespace() {
     echo '{"jsonrpc": "2.0", "id": 8, "method": "tools/call", "params": {"name": "temporal_get_namespace", "arguments": {"namespace": "test-namespace"}}}'
 }
 
+test_create_namespace() {
+    init_server
+    echo '{"jsonrpc": "2.0", "id": 9, "method": "tools/call", "params": {"name": "temporal_create_namespace", "arguments": {"namespace_spec": {"name": "test-ns", "regions": ["us-east-1"], "retention_days": 30}}}}'
+}
+
 # Operation tools
 test_get_operation() {
     init_server
@@ -64,6 +69,7 @@ show_usage() {
     echo "  test_get_user      - Test temporal_get_user tool"
     echo "  test_list_namespaces - Test temporal_list_namespaces tool"
     echo "  test_get_namespace - Test temporal_get_namespace tool"
+    echo "  test_create_namespace - Test temporal_create_namespace tool (with API key auth default)"
     echo "  test_get_operation - Test temporal_get_async_operation tool"
     echo "  all               - Run all tests"
     echo ""
@@ -105,6 +111,9 @@ case "${1:-}" in
         ;;
     "test_get_namespace")
         test_get_namespace
+        ;;
+    "test_create_namespace")
+        test_create_namespace
         ;;
     "test_get_operation")
         test_get_operation
