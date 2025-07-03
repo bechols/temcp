@@ -60,8 +60,6 @@ go build -o mcp-server ./cmd/mcp-server
 
 ## Available Tools
 
-The MCP server provides 21 tools for managing Temporal Cloud resources:
-
 **User Info:**
 - `temporal_get_user` - Get user details by ID
 - `temporal_list_users` - List users with pagination
