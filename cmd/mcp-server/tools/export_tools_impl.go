@@ -4,7 +4,6 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
 	"os"
 
 	"github.com/mark3labs/mcp-go/mcp"
@@ -81,7 +80,7 @@ func handleProcessExportImpl(request mcp.CallToolRequest) (*mcp.CallToolResult, 
 	}
 
 	// Read the export file
-	exportData, err := ioutil.ReadFile(filePath)
+	exportData, err := os.ReadFile(filePath)
 	if err != nil {
 		return &mcp.CallToolResult{
 			IsError: true,
@@ -200,7 +199,7 @@ func handleAnalyzeExportImpl(request mcp.CallToolRequest) (*mcp.CallToolResult, 
 	}
 
 	// Read the export file
-	exportData, err := ioutil.ReadFile(filePath)
+	exportData, err := os.ReadFile(filePath)
 	if err != nil {
 		return &mcp.CallToolResult{
 			IsError: true,
