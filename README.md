@@ -62,7 +62,7 @@ go build -o mcp-server ./cmd/mcp-server
 
 **User Info:**
 - `temporal_get_user` - Get user details by ID
-- `temporal_list_users` - List users with pagination
+- `temporal_list_users` - List users
 
 **Account Access Info:**
 - `temporal_get_account_access` - Get a user's account-level access role (owner, admin, developer, finance_admin, read)
@@ -76,7 +76,7 @@ go build -o mcp-server ./cmd/mcp-server
 
 **Namespace Management:**
 - `temporal_get_namespace` - Get namespace details by name
-- `temporal_list_namespaces` - List namespaces with pagination
+- `temporal_list_namespaces` - List namespaces
 - `temporal_create_namespace` - Create a new namespace
 - `temporal_update_namespace` - Update an existing namespace
 - `temporal_delete_namespace` - Delete a namespace
@@ -90,7 +90,7 @@ go build -o mcp-server ./cmd/mcp-server
 - `temporal_wait_for_operation` - Wait for async operation completion
 
 **Service Account Management:**
-- `temporal_list_service_accounts` - List Temporal Cloud service accounts with pagination
+- `temporal_list_service_accounts` - List Temporal Cloud service accounts
 - `temporal_get_service_account_namespace_access` - Get namespace access permissions for a service account
 - `temporal_set_service_account_namespace_access` - Set namespace access permissions for a service account
 
