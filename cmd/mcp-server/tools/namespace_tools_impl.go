@@ -43,7 +43,7 @@ func RegisterNamespaceToolsImpl(mcpServer *server.MCPServer, cfg *config.Config,
 	mcpServer.AddTool(
 		mcp.NewTool("temporal_create_namespace",
 			mcp.WithDescription("Create a new Temporal Cloud namespace"),
-			mcp.WithObject("namespace_spec", mcp.Description("Namespace specification object"), mcp.Required()),
+			mcp.WithObject("namespace_spec", mcp.Description("Namespace specification object with required fields: name (string), regions (array of strings), retention_days (number), and optional fields like ca_certificate_base64, codec_server_endpoint, custom_search_attributes"), mcp.Required()),
 		),
 		func(ctx context.Context, request mcp.CallToolRequest) (*mcp.CallToolResult, error) {
 			return handleCreateNamespace(ctx, request, clientManager)
