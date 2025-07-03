@@ -26,10 +26,15 @@ func (a *Activities) DeleteUser(ctx context.Context, in *cloudservice.DeleteUser
 	return executeCloudAPIRequest(ctx, in, a.client.CloudService().DeleteUser)
 }
 
+func (a *Activities) SetUserNamespaceAccess(ctx context.Context, in *cloudservice.SetUserNamespaceAccessRequest) (*cloudservice.SetUserNamespaceAccessResponse, error) {
+	return executeCloudAPIRequest(ctx, in, a.client.CloudService().SetUserNamespaceAccess)
+}
+
 var (
-	GetUser    = executeActivityFn[*cloudservice.GetUserRequest, *cloudservice.GetUserResponse](activitiesPrefix + "GetUser")
-	GetUsers   = executeActivityFn[*cloudservice.GetUsersRequest, *cloudservice.GetUsersResponse](activitiesPrefix + "GetUsers")
-	CreateUser = executeActivityFn[*cloudservice.CreateUserRequest, *cloudservice.CreateUserResponse](activitiesPrefix + "CreateUser")
-	UpdateUser = executeActivityFn[*cloudservice.UpdateUserRequest, *cloudservice.UpdateUserResponse](activitiesPrefix + "UpdateUser")
-	DeleteUser = executeActivityFn[*cloudservice.DeleteUserRequest, *cloudservice.DeleteUserResponse](activitiesPrefix + "DeleteUser")
+	GetUser                 = executeActivityFn[*cloudservice.GetUserRequest, *cloudservice.GetUserResponse](activitiesPrefix + "GetUser")
+	GetUsers                = executeActivityFn[*cloudservice.GetUsersRequest, *cloudservice.GetUsersResponse](activitiesPrefix + "GetUsers")
+	CreateUser              = executeActivityFn[*cloudservice.CreateUserRequest, *cloudservice.CreateUserResponse](activitiesPrefix + "CreateUser")
+	UpdateUser              = executeActivityFn[*cloudservice.UpdateUserRequest, *cloudservice.UpdateUserResponse](activitiesPrefix + "UpdateUser")
+	DeleteUser              = executeActivityFn[*cloudservice.DeleteUserRequest, *cloudservice.DeleteUserResponse](activitiesPrefix + "DeleteUser")
+	SetUserNamespaceAccess  = executeActivityFn[*cloudservice.SetUserNamespaceAccessRequest, *cloudservice.SetUserNamespaceAccessResponse](activitiesPrefix + "SetUserNamespaceAccess")
 )

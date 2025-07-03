@@ -28,6 +28,7 @@ const (
 	CreateUserWorkflowType                   = workflowPrefix + "create-user"
 	UpdateUserWorkflowType                   = workflowPrefix + "update-user"
 	DeleteUserWorkflowType                   = workflowPrefix + "delete-user"
+	SetUserNamespaceAccessWorkflowType       = workflowPrefix + "set-user-namespace-access"
 	ReconcileUserWorkflowType                = workflowPrefix + "reconcile-user"
 	ReconcileUsersWorkflowType               = workflowPrefix + "reconcile-users"
 
@@ -68,6 +69,7 @@ type (
 		CreateUser(ctx workflow.Context, in *cloudservice.CreateUserRequest) (*cloudservice.CreateUserResponse, error)
 		UpdateUser(ctx workflow.Context, in *cloudservice.UpdateUserRequest) (*cloudservice.UpdateUserResponse, error)
 		DeleteUser(ctx workflow.Context, in *cloudservice.DeleteUserRequest) (*cloudservice.DeleteUserResponse, error)
+		SetUserNamespaceAccess(ctx workflow.Context, in *cloudservice.SetUserNamespaceAccessRequest) (*cloudservice.SetUserNamespaceAccessResponse, error)
 		ReconcileUser(ctx workflow.Context, in *ReconcileUserInput) (*ReconcileUserOutput, error)
 		ReconcileUsers(ctx workflow.Context, in *ReconcileUsersInput) (*ReconcileUsersOutput, error)
 	}
@@ -91,6 +93,7 @@ func registerUserWorkflows(w worker.Worker, wf UserWorkflows) {
 		CreateUserWorkflowType:                   wf.CreateUser,
 		UpdateUserWorkflowType:                   wf.UpdateUser,
 		DeleteUserWorkflowType:                   wf.DeleteUser,
+		SetUserNamespaceAccessWorkflowType:       wf.SetUserNamespaceAccess,
 		ReconcileUserWorkflowType:                wf.ReconcileUser,
 		ReconcileUsersWorkflowType:               wf.ReconcileUsers,
 	} {
@@ -169,6 +172,11 @@ func (w *workflows) UpdateUser(ctx workflow.Context, in *cloudservice.UpdateUser
 // Delete a user
 func (w *workflows) DeleteUser(ctx workflow.Context, in *cloudservice.DeleteUserRequest) (*cloudservice.DeleteUserResponse, error) {
 	return activities.DeleteUser(withInfiniteRetryActivityOptions(ctx), in)
+}
+
+// Set user namespace access
+func (w *workflows) SetUserNamespaceAccess(ctx workflow.Context, in *cloudservice.SetUserNamespaceAccessRequest) (*cloudservice.SetUserNamespaceAccessResponse, error) {
+	return activities.SetUserNamespaceAccess(withInfiniteRetryActivityOptions(ctx), in)
 }
 
 func (w *workflows) reconcileUser(ctx workflow.Context, spec *identity.UserSpec, user *identity.User) (*ReconcileUserOutput, error) {
