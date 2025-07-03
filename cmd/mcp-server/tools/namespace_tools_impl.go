@@ -90,13 +90,21 @@ func handleGetNamespace(ctx context.Context, request mcp.CallToolRequest, client
 		}, nil
 	}
 
-	// Call GetNamespace through cloud client
-	cloudClient := clientManager.GetCloudClient()
 	getNamespaceReq := &cloudservice.GetNamespaceRequest{
 		Namespace: namespaceName,
 	}
+	var result interface{}
+	var err error
 
-	result, err := cloudClient.CloudService().GetNamespace(ctx, getNamespaceReq)
+	// Use workflow if Temporal client is available, otherwise call API directly
+	if clientManager.GetTemporalClient() != nil {
+		// Use the existing GetNamespace workflow
+		result, err = clientManager.ExecuteWorkflow(ctx, workflows.GetNamespaceWorkflowType, getNamespaceReq)
+	} else {
+		// Call GetNamespace through cloud client
+		cloudClient := clientManager.GetCloudClient()
+		result, err = cloudClient.CloudService().GetNamespace(ctx, getNamespaceReq)
+	}
 	if err != nil {
 		return &mcp.CallToolResult{
 			IsError: true,
@@ -109,7 +117,21 @@ func handleGetNamespace(ctx context.Context, request mcp.CallToolRequest, client
 		}, nil
 	}
 
-	resultJSON, err := json.MarshalIndent(result.Namespace, "", "  ")
+	// Convert result to JSON
+	var resultData interface{}
+	if clientManager.GetTemporalClient() != nil {
+		// Workflow returns the namespace directly
+		resultData = result
+	} else {
+		// Direct API call returns a response with .Namespace field
+		if nsResponse, ok := result.(*cloudservice.GetNamespaceResponse); ok {
+			resultData = nsResponse.Namespace
+		} else {
+			resultData = result
+		}
+	}
+	
+	resultJSON, err := json.MarshalIndent(resultData, "", "  ")
 	if err != nil {
 		return &mcp.CallToolResult{
 			IsError: true,
@@ -146,14 +168,22 @@ func handleListNamespaces(ctx context.Context, request mcp.CallToolRequest, clie
 		pageToken = token
 	}
 
-	// Call GetNamespaces through cloud client
-	cloudClient := clientManager.GetCloudClient()
 	getNamespacesReq := &cloudservice.GetNamespacesRequest{
 		PageSize:  pageSize,
 		PageToken: pageToken,
 	}
+	var result interface{}
+	var err error
 
-	result, err := cloudClient.CloudService().GetNamespaces(ctx, getNamespacesReq)
+	// Use workflow if Temporal client is available, otherwise call API directly
+	if clientManager.GetTemporalClient() != nil {
+		// Use the existing GetNamespaces workflow
+		result, err = clientManager.ExecuteWorkflow(ctx, workflows.GetNamespacesWorkflowType, getNamespacesReq)
+	} else {
+		// Call GetNamespaces through cloud client
+		cloudClient := clientManager.GetCloudClient()
+		result, err = cloudClient.CloudService().GetNamespaces(ctx, getNamespacesReq)
+	}
 	if err != nil {
 		return &mcp.CallToolResult{
 			IsError: true,
@@ -206,34 +236,47 @@ func handleCreateNamespace(ctx context.Context, request mcp.CallToolRequest, cli
 	}
 
 	// Convert namespace_spec to proper type
-	namespaceSpecJSON, err := json.Marshal(namespaceSpecRaw)
-	if err != nil {
+	namespaceSpecJSON, marshalErr := json.Marshal(namespaceSpecRaw)
+	if marshalErr != nil {
 		return &mcp.CallToolResult{
 			IsError: true,
 			Content: []mcp.Content{
 				mcp.TextContent{
 					Type: "text",
-					Text: fmt.Sprintf("Error parsing namespace_spec: %v", err),
+					Text: fmt.Sprintf("Error parsing namespace_spec: %v", marshalErr),
 				},
 			},
 		}, nil
 	}
 
 	var namespaceSpec namespace.NamespaceSpec
-	if err := json.Unmarshal(namespaceSpecJSON, &namespaceSpec); err != nil {
+	if unmarshalErr := json.Unmarshal(namespaceSpecJSON, &namespaceSpec); unmarshalErr != nil {
 		return &mcp.CallToolResult{
 			IsError: true,
 			Content: []mcp.Content{
 				mcp.TextContent{
 					Type: "text",
-					Text: fmt.Sprintf("Error parsing namespace specification: %v", err),
+					Text: fmt.Sprintf("Error parsing namespace specification: %v", unmarshalErr),
 				},
 			},
 		}, nil
 	}
 
-	// Use the existing CreateNamespace workflow
-	result, err := clientManager.ExecuteWorkflow(ctx, workflows.CreateNamespaceWorkflowType, &namespaceSpec)
+	var result interface{}
+	var err error
+
+	// Use workflow if Temporal client is available, otherwise call API directly
+	if clientManager.GetTemporalClient() != nil {
+		// Use the existing CreateNamespace workflow
+		result, err = clientManager.ExecuteWorkflow(ctx, workflows.CreateNamespaceWorkflowType, &namespaceSpec)
+	} else {
+		// Call CreateNamespace through cloud client
+		cloudClient := clientManager.GetCloudClient()
+		createReq := &cloudservice.CreateNamespaceRequest{
+			Spec: &namespaceSpec,
+		}
+		result, err = cloudClient.CloudService().CreateNamespace(ctx, createReq)
+	}
 	if err != nil {
 		return &mcp.CallToolResult{
 			IsError: true,
@@ -298,35 +341,45 @@ func handleUpdateNamespace(ctx context.Context, request mcp.CallToolRequest, cli
 	}
 
 	// Convert to proper update request
-	updatesJSON, err := json.Marshal(namespaceUpdatesRaw)
-	if err != nil {
+	updatesJSON, marshalErr := json.Marshal(namespaceUpdatesRaw)
+	if marshalErr != nil {
 		return &mcp.CallToolResult{
 			IsError: true,
 			Content: []mcp.Content{
 				mcp.TextContent{
 					Type: "text",
-					Text: fmt.Sprintf("Error parsing namespace_updates: %v", err),
+					Text: fmt.Sprintf("Error parsing namespace_updates: %v", marshalErr),
 				},
 			},
 		}, nil
 	}
 
 	var updateReq cloudservice.UpdateNamespaceRequest
-	if err := json.Unmarshal(updatesJSON, &updateReq); err != nil {
+	if unmarshalErr := json.Unmarshal(updatesJSON, &updateReq); unmarshalErr != nil {
 		return &mcp.CallToolResult{
 			IsError: true,
 			Content: []mcp.Content{
 				mcp.TextContent{
 					Type: "text",
-					Text: fmt.Sprintf("Error parsing namespace updates: %v", err),
+					Text: fmt.Sprintf("Error parsing namespace updates: %v", unmarshalErr),
 				},
 			},
 		}, nil
 	}
 	updateReq.Namespace = namespaceName
 
-	// Use the existing UpdateNamespace workflow
-	result, err := clientManager.ExecuteWorkflow(ctx, workflows.UpdateNamespaceWorkflowType, &updateReq)
+	var result interface{}
+	var err error
+
+	// Use workflow if Temporal client is available, otherwise call API directly
+	if clientManager.GetTemporalClient() != nil {
+		// Use the existing UpdateNamespace workflow
+		result, err = clientManager.ExecuteWorkflow(ctx, workflows.UpdateNamespaceWorkflowType, &updateReq)
+	} else {
+		// Call UpdateNamespace through cloud client
+		cloudClient := clientManager.GetCloudClient()
+		result, err = cloudClient.CloudService().UpdateNamespace(ctx, &updateReq)
+	}
 	if err != nil {
 		return &mcp.CallToolResult{
 			IsError: true,
@@ -377,12 +430,21 @@ func handleDeleteNamespace(ctx context.Context, request mcp.CallToolRequest, cli
 		}, nil
 	}
 
-	// Use the existing DeleteNamespace workflow
 	deleteReq := &cloudservice.DeleteNamespaceRequest{
 		Namespace: namespaceName,
 	}
+	var result interface{}
+	var err error
 
-	result, err := clientManager.ExecuteWorkflow(ctx, workflows.DeleteNamespaceWorkflowType, deleteReq)
+	// Use workflow if Temporal client is available, otherwise call API directly
+	if clientManager.GetTemporalClient() != nil {
+		// Use the existing DeleteNamespace workflow
+		result, err = clientManager.ExecuteWorkflow(ctx, workflows.DeleteNamespaceWorkflowType, deleteReq)
+	} else {
+		// Call DeleteNamespace through cloud client
+		cloudClient := clientManager.GetCloudClient()
+		result, err = cloudClient.CloudService().DeleteNamespace(ctx, deleteReq)
+	}
 	if err != nil {
 		return &mcp.CallToolResult{
 			IsError: true,

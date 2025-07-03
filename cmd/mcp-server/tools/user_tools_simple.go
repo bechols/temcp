@@ -9,6 +9,7 @@ import (
 	"github.com/mark3labs/mcp-go/server"
 	"github.com/temporalio/cloud-samples-go/cmd/mcp-server/clients"
 	"github.com/temporalio/cloud-samples-go/cmd/mcp-server/config"
+	"github.com/temporalio/cloud-samples-go/workflows"
 	"go.temporal.io/cloud-sdk/api/cloudservice/v1"
 )
 
@@ -54,13 +55,21 @@ func handleGetUserSimple(ctx context.Context, request mcp.CallToolRequest, clien
 		}, nil
 	}
 
-	// Call GetUser activity directly through cloud client
-	cloudClient := clientManager.GetCloudClient()
 	getUserReq := &cloudservice.GetUserRequest{
 		UserId: userID,
 	}
+	var user interface{}
+	var err error
 
-	user, err := cloudClient.CloudService().GetUser(ctx, getUserReq)
+	// Use workflow if Temporal client is available, otherwise call API directly
+	if clientManager.GetTemporalClient() != nil {
+		// Use the existing GetUser workflow
+		user, err = clientManager.ExecuteWorkflow(ctx, workflows.GetUserWorkflowType, getUserReq)
+	} else {
+		// Call GetUser activity directly through cloud client
+		cloudClient := clientManager.GetCloudClient()
+		user, err = cloudClient.CloudService().GetUser(ctx, getUserReq)
+	}
 	if err != nil {
 		return &mcp.CallToolResult{
 			IsError: true,
@@ -74,7 +83,20 @@ func handleGetUserSimple(ctx context.Context, request mcp.CallToolRequest, clien
 	}
 
 	// Convert result to JSON
-	resultJSON, err := json.MarshalIndent(user.User, "", "  ")
+	var resultData interface{}
+	if clientManager.GetTemporalClient() != nil {
+		// Workflow returns the user directly
+		resultData = user
+	} else {
+		// Direct API call returns a response with .User field
+		if userResponse, ok := user.(*cloudservice.GetUserResponse); ok {
+			resultData = userResponse.User
+		} else {
+			resultData = user
+		}
+	}
+	
+	resultJSON, err := json.MarshalIndent(resultData, "", "  ")
 	if err != nil {
 		return &mcp.CallToolResult{
 			IsError: true,
@@ -111,14 +133,22 @@ func handleListUsersSimple(ctx context.Context, request mcp.CallToolRequest, cli
 		pageToken = token
 	}
 
-	// Call GetUsers through cloud client
-	cloudClient := clientManager.GetCloudClient()
 	getUsersReq := &cloudservice.GetUsersRequest{
 		PageSize:  pageSize,
 		PageToken: pageToken,
 	}
+	var result interface{}
+	var err error
 
-	result, err := cloudClient.CloudService().GetUsers(ctx, getUsersReq)
+	// Use workflow if Temporal client is available, otherwise call API directly
+	if clientManager.GetTemporalClient() != nil {
+		// Use the existing GetUsers workflow
+		result, err = clientManager.ExecuteWorkflow(ctx, workflows.GetUsersWorkflowType, getUsersReq)
+	} else {
+		// Call GetUsers through cloud client
+		cloudClient := clientManager.GetCloudClient()
+		result, err = cloudClient.CloudService().GetUsers(ctx, getUsersReq)
+	}
 	if err != nil {
 		return &mcp.CallToolResult{
 			IsError: true,

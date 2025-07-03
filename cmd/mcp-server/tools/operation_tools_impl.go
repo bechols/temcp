@@ -12,6 +12,7 @@ import (
 	"github.com/temporalio/cloud-samples-go/cmd/mcp-server/config"
 	"github.com/temporalio/cloud-samples-go/workflows"
 	"go.temporal.io/cloud-sdk/api/cloudservice/v1"
+	"go.temporal.io/cloud-sdk/api/operation/v1"
 )
 
 // RegisterOperationToolsImpl registers all async operation management tools with the MCP server
@@ -55,12 +56,21 @@ func handleGetAsyncOperationImpl(ctx context.Context, request mcp.CallToolReques
 		}, nil
 	}
 
-	// Use the existing GetAsyncOperation workflow
 	getOpReq := &cloudservice.GetAsyncOperationRequest{
 		AsyncOperationId: operationID,
 	}
+	var result interface{}
+	var err error
 
-	result, err := clientManager.ExecuteWorkflow(ctx, workflows.GetAsyncOperationWorkflowType, getOpReq)
+	// Use workflow if Temporal client is available, otherwise call API directly
+	if clientManager.GetTemporalClient() != nil {
+		// Use the existing GetAsyncOperation workflow
+		result, err = clientManager.ExecuteWorkflow(ctx, workflows.GetAsyncOperationWorkflowType, getOpReq)
+	} else {
+		// Call GetAsyncOperation through cloud client
+		cloudClient := clientManager.GetCloudClient()
+		result, err = cloudClient.CloudService().GetAsyncOperation(ctx, getOpReq)
+	}
 	if err != nil {
 		return &mcp.CallToolResult{
 			IsError: true,
@@ -117,13 +127,62 @@ func handleWaitForOperationImpl(ctx context.Context, request mcp.CallToolRequest
 		timeoutSeconds = ts
 	}
 
-	// Use the existing WaitForAsyncOperation workflow
-	waitInput := &workflows.WaitForAsyncOperationInput{
-		AsyncOperationID: operationID,
-		Timeout:          time.Duration(timeoutSeconds) * time.Second,
-	}
+	var result interface{}
+	var err error
 
-	result, err := clientManager.ExecuteWorkflowWithTimeout(ctx, workflows.WaitForAsyncOperationType, waitInput, time.Duration(timeoutSeconds+30)*time.Second)
+	// Use workflow if Temporal client is available, otherwise implement polling directly
+	if clientManager.GetTemporalClient() != nil {
+		// Use the existing WaitForAsyncOperation workflow
+		waitInput := &workflows.WaitForAsyncOperationInput{
+			AsyncOperationID: operationID,
+			Timeout:          time.Duration(timeoutSeconds) * time.Second,
+		}
+		result, err = clientManager.ExecuteWorkflowWithTimeout(ctx, workflows.WaitForAsyncOperationType, waitInput, time.Duration(timeoutSeconds+30)*time.Second)
+	} else {
+		// Implement polling logic directly
+		cloudClient := clientManager.GetCloudClient()
+		getOpReq := &cloudservice.GetAsyncOperationRequest{
+			AsyncOperationId: operationID,
+		}
+
+		// Set up timeout context
+		timeoutCtx, cancel := context.WithTimeout(ctx, time.Duration(timeoutSeconds)*time.Second)
+		defer cancel()
+
+		// Poll until complete or timeout
+		for {
+			opResult, pollErr := cloudClient.CloudService().GetAsyncOperation(timeoutCtx, getOpReq)
+			if pollErr != nil {
+				err = pollErr
+				break
+			}
+
+			// Check if operation is complete
+			if opResult.AsyncOperation.State != operation.AsyncOperation_STATE_PENDING && 
+			   opResult.AsyncOperation.State != operation.AsyncOperation_STATE_IN_PROGRESS {
+				// Operation completed (success or failure)
+				result = opResult
+				break
+			}
+
+			// Wait before next poll
+			select {
+			case <-timeoutCtx.Done():
+				err = fmt.Errorf("timeout waiting for async operation to complete")
+				return &mcp.CallToolResult{
+					IsError: true,
+					Content: []mcp.Content{
+						mcp.TextContent{
+							Type: "text",
+							Text: "Timeout waiting for async operation to complete",
+						},
+					},
+				}, nil
+			case <-time.After(2 * time.Second):
+				// Continue polling
+			}
+		}
+	}
 	if err != nil {
 		return &mcp.CallToolResult{
 			IsError: true,
