@@ -5,9 +5,9 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/temporalio/cloud-samples-go/client/api"
-	"github.com/temporalio/cloud-samples-go/client/temporal"
-	"github.com/temporalio/cloud-samples-go/workflows"
+	"bechols/temcp/client/api"
+	"bechols/temcp/client/temporal"
+	"bechols/temcp/workflows"
 	"go.temporal.io/sdk/client"
 	"go.temporal.io/sdk/worker"
 	"go.temporal.io/server/common/log"

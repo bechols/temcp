@@ -5,17 +5,17 @@ import (
 	"encoding/json"
 	"fmt"
 
+	"bechols/temcp/cmd/mcp-server/clients"
+	"bechols/temcp/cmd/mcp-server/config"
+	"bechols/temcp/workflows"
 	"github.com/mark3labs/mcp-go/mcp"
 	"github.com/mark3labs/mcp-go/server"
-	"github.com/temporalio/cloud-samples-go/cmd/mcp-server/clients"
-	"github.com/temporalio/cloud-samples-go/cmd/mcp-server/config"
-	"github.com/temporalio/cloud-samples-go/workflows"
 	"go.temporal.io/cloud-sdk/api/cloudservice/v1"
 	"go.temporal.io/cloud-sdk/api/namespace/v1"
 )
 
-// RegisterNamespaceToolsImpl registers all namespace management tools with the MCP server
-func RegisterNamespaceToolsImpl(mcpServer *server.MCPServer, cfg *config.Config, clientManager *clients.ClientManager) {
+// RegisterNamespaceMgmtTools registers all namespace management tools with the MCP server
+func RegisterNamespaceMgmtTools(mcpServer *server.MCPServer, cfg *config.Config, clientManager *clients.ClientManager) {
 	// Register temporal_get_namespace tool
 	mcpServer.AddTool(
 		mcp.NewTool("temporal_get_namespace",

@@ -1,4 +1,4 @@
-module github.com/temporalio/cloud-samples-go
+module bechols/temcp
 
 go 1.23.2
 

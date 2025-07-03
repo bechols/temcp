@@ -5,11 +5,11 @@ import (
 	"encoding/json"
 	"fmt"
 
+	"bechols/temcp/cmd/mcp-server/clients"
+	"bechols/temcp/cmd/mcp-server/config"
+	"bechols/temcp/workflows"
 	"github.com/mark3labs/mcp-go/mcp"
 	"github.com/mark3labs/mcp-go/server"
-	"github.com/temporalio/cloud-samples-go/cmd/mcp-server/clients"
-	"github.com/temporalio/cloud-samples-go/cmd/mcp-server/config"
-	"github.com/temporalio/cloud-samples-go/workflows"
 	"go.temporal.io/cloud-sdk/api/cloudservice/v1"
 )
 

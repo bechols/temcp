@@ -4,10 +4,10 @@ import (
 	"context"
 	"time"
 
-	"github.com/temporalio/cloud-samples-go/client/api"
-	"github.com/temporalio/cloud-samples-go/cmd/mcp-server/config"
-	"github.com/temporalio/cloud-samples-go/workflows"
-	"github.com/temporalio/cloud-samples-go/workflows/activities"
+	"bechols/temcp/client/api"
+	"bechols/temcp/cmd/mcp-server/config"
+	"bechols/temcp/workflows"
+	"bechols/temcp/workflows/activities"
 	"go.temporal.io/sdk/client"
 	"go.temporal.io/sdk/worker"
 )

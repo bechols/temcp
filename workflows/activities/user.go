@@ -31,10 +31,10 @@ func (a *Activities) SetUserNamespaceAccess(ctx context.Context, in *cloudservic
 }
 
 var (
-	GetUser                 = executeActivityFn[*cloudservice.GetUserRequest, *cloudservice.GetUserResponse](activitiesPrefix + "GetUser")
-	GetUsers                = executeActivityFn[*cloudservice.GetUsersRequest, *cloudservice.GetUsersResponse](activitiesPrefix + "GetUsers")
-	CreateUser              = executeActivityFn[*cloudservice.CreateUserRequest, *cloudservice.CreateUserResponse](activitiesPrefix + "CreateUser")
-	UpdateUser              = executeActivityFn[*cloudservice.UpdateUserRequest, *cloudservice.UpdateUserResponse](activitiesPrefix + "UpdateUser")
-	DeleteUser              = executeActivityFn[*cloudservice.DeleteUserRequest, *cloudservice.DeleteUserResponse](activitiesPrefix + "DeleteUser")
-	SetUserNamespaceAccess  = executeActivityFn[*cloudservice.SetUserNamespaceAccessRequest, *cloudservice.SetUserNamespaceAccessResponse](activitiesPrefix + "SetUserNamespaceAccess")
+	GetUser                = executeActivityFn[*cloudservice.GetUserRequest, *cloudservice.GetUserResponse](activitiesPrefix + "GetUser")
+	GetUsers               = executeActivityFn[*cloudservice.GetUsersRequest, *cloudservice.GetUsersResponse](activitiesPrefix + "GetUsers")
+	CreateUser             = executeActivityFn[*cloudservice.CreateUserRequest, *cloudservice.CreateUserResponse](activitiesPrefix + "CreateUser")
+	UpdateUser             = executeActivityFn[*cloudservice.UpdateUserRequest, *cloudservice.UpdateUserResponse](activitiesPrefix + "UpdateUser")
+	DeleteUser             = executeActivityFn[*cloudservice.DeleteUserRequest, *cloudservice.DeleteUserResponse](activitiesPrefix + "DeleteUser")
+	SetUserNamespaceAccess = executeActivityFn[*cloudservice.SetUserNamespaceAccessRequest, *cloudservice.SetUserNamespaceAccessResponse](activitiesPrefix + "SetUserNamespaceAccess")
 )

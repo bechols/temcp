@@ -1,7 +1,7 @@
 package activities
 
 import (
-	"github.com/temporalio/cloud-samples-go/client/api"
+	"bechols/temcp/client/api"
 	"go.temporal.io/sdk/activity"
 	"go.temporal.io/sdk/worker"
 )

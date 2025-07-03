@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/temporalio/cloud-samples-go/export"
+	"bechols/temcp/export"
 )
 
 func main() {

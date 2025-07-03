@@ -5,16 +5,16 @@ import (
 	"encoding/json"
 	"fmt"
 
+	"bechols/temcp/cmd/mcp-server/clients"
+	"bechols/temcp/cmd/mcp-server/config"
+	"bechols/temcp/workflows"
 	"github.com/mark3labs/mcp-go/mcp"
 	"github.com/mark3labs/mcp-go/server"
-	"github.com/temporalio/cloud-samples-go/cmd/mcp-server/clients"
-	"github.com/temporalio/cloud-samples-go/cmd/mcp-server/config"
-	"github.com/temporalio/cloud-samples-go/workflows"
 	"go.temporal.io/cloud-sdk/api/cloudservice/v1"
 )
 
-// RegisterRegionToolsImpl registers all region management tools with the MCP server
-func RegisterRegionToolsImpl(mcpServer *server.MCPServer, cfg *config.Config, clientManager *clients.ClientManager) {
+// RegisterRegionTools registers all region management tools with the MCP server
+func RegisterRegionTools(mcpServer *server.MCPServer, cfg *config.Config, clientManager *clients.ClientManager) {
 	// Register temporal_get_region tool
 	mcpServer.AddTool(
 		mcp.NewTool("temporal_get_region",

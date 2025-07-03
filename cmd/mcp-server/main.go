@@ -6,9 +6,9 @@ import (
 	"os/signal"
 	"syscall"
 
+	"bechols/temcp/cmd/mcp-server/config"
+	"bechols/temcp/cmd/mcp-server/tools"
 	"github.com/mark3labs/mcp-go/server"
-	"github.com/temporalio/cloud-samples-go/cmd/mcp-server/config"
-	"github.com/temporalio/cloud-samples-go/cmd/mcp-server/tools"
 )
 
 func main() {

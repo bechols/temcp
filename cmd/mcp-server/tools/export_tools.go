@@ -6,15 +6,15 @@ import (
 	"fmt"
 	"os"
 
+	"bechols/temcp/cmd/mcp-server/clients"
+	"bechols/temcp/cmd/mcp-server/config"
+	"bechols/temcp/export"
 	"github.com/mark3labs/mcp-go/mcp"
 	"github.com/mark3labs/mcp-go/server"
-	"github.com/temporalio/cloud-samples-go/cmd/mcp-server/clients"
-	"github.com/temporalio/cloud-samples-go/cmd/mcp-server/config"
-	"github.com/temporalio/cloud-samples-go/export"
 )
 
-// RegisterExportToolsImpl registers all export processing tools with the MCP server
-func RegisterExportToolsImpl(mcpServer *server.MCPServer, cfg *config.Config, clientManager *clients.ClientManager) {
+// RegisterExportTools registers all export processing tools with the MCP server
+func RegisterExportTools(mcpServer *server.MCPServer, cfg *config.Config, clientManager *clients.ClientManager) {
 	// Register temporal_process_export tool
 	mcpServer.AddTool(
 		mcp.NewTool("temporal_process_export",

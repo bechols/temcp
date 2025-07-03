@@ -6,8 +6,8 @@ import (
 	"fmt"
 	"net"
 
-	"github.com/temporalio/cloud-samples-go/client/api"
-	"github.com/temporalio/cloud-samples-go/internal/validator"
+	"bechols/temcp/client/api"
+	"bechols/temcp/internal/validator"
 	cloudservicev1 "go.temporal.io/cloud-sdk/api/cloudservice/v1"
 	"go.temporal.io/sdk/client"
 	"go.temporal.io/sdk/log"

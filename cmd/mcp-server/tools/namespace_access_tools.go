@@ -5,11 +5,11 @@ import (
 	"encoding/json"
 	"fmt"
 
+	"bechols/temcp/cmd/mcp-server/clients"
+	"bechols/temcp/cmd/mcp-server/config"
+	"bechols/temcp/workflows"
 	"github.com/mark3labs/mcp-go/mcp"
 	"github.com/mark3labs/mcp-go/server"
-	"github.com/temporalio/cloud-samples-go/cmd/mcp-server/clients"
-	"github.com/temporalio/cloud-samples-go/cmd/mcp-server/config"
-	"github.com/temporalio/cloud-samples-go/workflows"
 	"go.temporal.io/cloud-sdk/api/cloudservice/v1"
 	"go.temporal.io/cloud-sdk/api/identity/v1"
 )
@@ -45,7 +45,7 @@ func RegisterNamespaceAccessTools(mcpServer *server.MCPServer, cfg *config.Confi
 
 func handleGetUserNamespaceAccess(ctx context.Context, request mcp.CallToolRequest, clientManager *clients.ClientManager) (*mcp.CallToolResult, error) {
 	arguments := request.GetArguments()
-	
+
 	userID, ok := arguments["user_id"].(string)
 	if !ok || userID == "" {
 		return &mcp.CallToolResult{
@@ -76,7 +76,7 @@ func handleGetUserNamespaceAccess(ctx context.Context, request mcp.CallToolReque
 	getUserReq := &cloudservice.GetUserRequest{
 		UserId: userID,
 	}
-	
+
 	var user interface{}
 	var err error
 
@@ -87,7 +87,7 @@ func handleGetUserNamespaceAccess(ctx context.Context, request mcp.CallToolReque
 		cloudClient := clientManager.GetCloudClient()
 		user, err = cloudClient.CloudService().GetUser(ctx, getUserReq)
 	}
-	
+
 	if err != nil {
 		return &mcp.CallToolResult{
 			IsError: true,
@@ -142,9 +142,9 @@ func handleGetUserNamespaceAccess(ctx context.Context, request mcp.CallToolReque
 
 	// Extract namespace access information
 	result := map[string]interface{}{
-		"user_id":   userID,
-		"namespace": namespace,
-		"access":    nil,
+		"user_id":    userID,
+		"namespace":  namespace,
+		"access":     nil,
 		"has_access": false,
 	}
 
@@ -185,7 +185,7 @@ func handleGetUserNamespaceAccess(ctx context.Context, request mcp.CallToolReque
 
 func handleSetUserNamespaceAccess(ctx context.Context, request mcp.CallToolRequest, clientManager *clients.ClientManager) (*mcp.CallToolResult, error) {
 	arguments := request.GetArguments()
-	
+
 	userID, ok := arguments["user_id"].(string)
 	if !ok || userID == "" {
 		return &mcp.CallToolResult{

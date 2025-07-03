@@ -7,11 +7,11 @@ import (
 	"log"
 	"time"
 
+	"bechols/temcp/cmd/mcp-server/clients"
+	"bechols/temcp/cmd/mcp-server/config"
 	"github.com/google/uuid"
 	"github.com/mark3labs/mcp-go/mcp"
 	"github.com/mark3labs/mcp-go/server"
-	"github.com/temporalio/cloud-samples-go/cmd/mcp-server/clients"
-	"github.com/temporalio/cloud-samples-go/cmd/mcp-server/config"
 	cloudservicev1 "go.temporal.io/cloud-sdk/api/cloudservice/v1"
 	identityv1 "go.temporal.io/cloud-sdk/api/identity/v1"
 	"google.golang.org/protobuf/types/known/timestamppb"
@@ -148,7 +148,7 @@ func handleCreateApiKey(ctx context.Context, request mcp.CallToolRequest, client
 		},
 		AsyncOperationId: uuid.New().String(),
 	}
-	
+
 	// Debug: log the enum value being sent (to stderr, not stdout which corrupts JSON)
 	log.Printf("DEBUG: OwnerType enum value: %v (%d)", ownerTypeEnum, int32(ownerTypeEnum))
 

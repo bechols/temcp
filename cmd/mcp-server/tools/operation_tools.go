@@ -6,17 +6,17 @@ import (
 	"fmt"
 	"time"
 
+	"bechols/temcp/cmd/mcp-server/clients"
+	"bechols/temcp/cmd/mcp-server/config"
+	"bechols/temcp/workflows"
 	"github.com/mark3labs/mcp-go/mcp"
 	"github.com/mark3labs/mcp-go/server"
-	"github.com/temporalio/cloud-samples-go/cmd/mcp-server/clients"
-	"github.com/temporalio/cloud-samples-go/cmd/mcp-server/config"
-	"github.com/temporalio/cloud-samples-go/workflows"
 	"go.temporal.io/cloud-sdk/api/cloudservice/v1"
 	"go.temporal.io/cloud-sdk/api/operation/v1"
 )
 
-// RegisterOperationToolsImpl registers all async operation management tools with the MCP server
-func RegisterOperationToolsImpl(mcpServer *server.MCPServer, cfg *config.Config, clientManager *clients.ClientManager) {
+// RegisterOperationTools registers all async operation management tools with the MCP server
+func RegisterOperationTools(mcpServer *server.MCPServer, cfg *config.Config, clientManager *clients.ClientManager) {
 	// Register temporal_get_async_operation tool
 	mcpServer.AddTool(
 		mcp.NewTool("temporal_get_async_operation",

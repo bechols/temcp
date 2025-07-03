@@ -1,9 +1,9 @@
 package tools
 
 import (
+	"bechols/temcp/cmd/mcp-server/clients"
+	"bechols/temcp/cmd/mcp-server/config"
 	"github.com/mark3labs/mcp-go/server"
-	"github.com/temporalio/cloud-samples-go/cmd/mcp-server/clients"
-	"github.com/temporalio/cloud-samples-go/cmd/mcp-server/config"
 )
 
 func RegisterAllTools(mcpServer *server.MCPServer, cfg *config.Config) error {
@@ -18,13 +18,13 @@ func RegisterAllTools(mcpServer *server.MCPServer, cfg *config.Config) error {
 
 	RegisterNamespaceAccessTools(mcpServer, cfg, clientManager)
 
-	RegisterNamespaceToolsImpl(mcpServer, cfg, clientManager)
+	RegisterNamespaceMgmtTools(mcpServer, cfg, clientManager)
 
-	RegisterRegionToolsImpl(mcpServer, cfg, clientManager)
+	RegisterRegionTools(mcpServer, cfg, clientManager)
 
-	RegisterOperationToolsImpl(mcpServer, cfg, clientManager)
+	RegisterOperationTools(mcpServer, cfg, clientManager)
 
-	RegisterExportToolsImpl(mcpServer, cfg, clientManager)
+	RegisterExportTools(mcpServer, cfg, clientManager)
 
 	RegisterApiKeyTools(mcpServer, cfg, clientManager)
 

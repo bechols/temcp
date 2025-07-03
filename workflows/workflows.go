@@ -1,8 +1,8 @@
 package workflows
 
 import (
-	"github.com/temporalio/cloud-samples-go/client/api"
-	"github.com/temporalio/cloud-samples-go/workflows/activities"
+	"bechols/temcp/client/api"
+	"bechols/temcp/workflows/activities"
 	"go.temporal.io/sdk/worker"
 )
 
