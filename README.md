@@ -85,7 +85,7 @@ go build -o mcp-server ./cmd/mcp-server
 - `temporal_get_region` - Get region details by ID
 - `temporal_list_regions` - List all available regions
 
-**Async Operations:** (not tested as of July 2)
+**Async Operations:**
 - `temporal_get_async_operation` - Get async operation status
 - `temporal_wait_for_operation` - Wait for async operation completion
 
@@ -94,7 +94,7 @@ go build -o mcp-server ./cmd/mcp-server
 - `temporal_get_service_account_namespace_access` - Get namespace access permissions for a service account
 - `temporal_set_service_account_namespace_access` - Set namespace access permissions for a service account
 
-**Export Processing:** (not tested as of July 2)
+**Export Processing:** (untested as of July 2)
 - `temporal_process_export` - Process exported workflow history files
 - `temporal_analyze_export` - Analyze exported workflows and extract summaries
 
