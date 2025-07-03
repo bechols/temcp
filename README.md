@@ -2,11 +2,17 @@
 
 An MCP (Model Context Protocol) server that exposes Temporal Cloud operations as tools for AI assistants.
 
-## Testing with MCP Inspector
+Stuff you can do:
+
+  - What namespaces do I have access to?
+  - What does Jane Doe have access to?
+  - Create namespace-foo in aws us west with 1 day retention
+  - Give service-account-1 access to namespace-foo
+  - Add an API key for service-account-1
+
+## Use with MCP Inspector
 
 ![MCP Inspector Interface](./mcp-inspector.png)
-
-For interactive testing and debugging, you can use the MCP Inspector:
 
 ### Prerequisites
 1. Build the MCP server:
@@ -52,7 +58,7 @@ Configure `.cursor/mcp.json`:
 go build -o mcp-server ./cmd/mcp-server
 ```
 
-## Available Commands
+## Available Tools
 
 The MCP server provides 21 tools for managing Temporal Cloud resources:
 
@@ -94,4 +100,7 @@ The MCP server provides 21 tools for managing Temporal Cloud resources:
 - `temporal_process_export` - Process exported workflow history files
 - `temporal_analyze_export` - Analyze exported workflows and extract summaries
 
+Note: per the MCP spec, the read-only tools should be resources. Everything's implemented as a tool because Cursor only supports tools for now.
+
 Based on https://github.com/temporalio/cloud-samples-go
+Uses https://github.com/mark3labs/mcp-go
