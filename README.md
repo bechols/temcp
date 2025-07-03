@@ -55,11 +55,18 @@ go build -o mcp-server ./cmd/mcp-server
 
 ## Available Commands
 
-The MCP server provides 13 tools for managing Temporal Cloud resources:
+The MCP server provides 17 tools for managing Temporal Cloud resources:
 
-**User Management:**
+**User Info:**
 - `temporal_get_user` - Get user details by ID
 - `temporal_list_users` - List users with pagination
+
+**Account Access Info:**
+- `temporal_get_account_access` - Get a user's account-level access role (owner, admin, developer, finance_admin, read)
+
+**Namespace Access Management:**
+- `temporal_get_user_namespace_access` - Get a user's access level for a specific namespace
+- `temporal_set_user_namespace_access` - Set or update a user's access level for a specific namespace
 
 **Namespace Management:**
 - `temporal_get_namespace` - Get namespace details by name
@@ -68,15 +75,15 @@ The MCP server provides 13 tools for managing Temporal Cloud resources:
 - `temporal_update_namespace` - Update an existing namespace
 - `temporal_delete_namespace` - Delete a namespace
 
-**Region Management:**
+**Region Availability:**
 - `temporal_get_region` - Get region details by ID
 - `temporal_list_regions` - List all available regions
 
-**Async Operations:**
+**Async Operations:** (not tested as of July 2)
 - `temporal_get_async_operation` - Get async operation status
 - `temporal_wait_for_operation` - Wait for async operation completion
 
-**Export Processing:**
+**Export Processing:** (not tested as of July 2)
 - `temporal_process_export` - Process exported workflow history files
 - `temporal_analyze_export` - Analyze exported workflows and extract summaries
 

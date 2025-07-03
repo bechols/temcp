@@ -25,7 +25,7 @@ func RegisterExportToolsImpl(mcpServer *server.MCPServer, cfg *config.Config, cl
 			mcp.WithBoolean("include_metadata", mcp.Description("Include workflow metadata summary (optional)")),
 		),
 		func(ctx context.Context, request mcp.CallToolRequest) (*mcp.CallToolResult, error) {
-			return handleProcessExportImpl(ctx, request, clientManager)
+			return handleProcessExportImpl(request)
 		},
 	)
 
@@ -36,12 +36,12 @@ func RegisterExportToolsImpl(mcpServer *server.MCPServer, cfg *config.Config, cl
 			mcp.WithString("export_file_path", mcp.Description("Path to the exported workflow history file"), mcp.Required()),
 		),
 		func(ctx context.Context, request mcp.CallToolRequest) (*mcp.CallToolResult, error) {
-			return handleAnalyzeExportImpl(ctx, request, clientManager)
+			return handleAnalyzeExportImpl(request)
 		},
 	)
 }
 
-func handleProcessExportImpl(ctx context.Context, request mcp.CallToolRequest, clientManager *clients.ClientManager) (*mcp.CallToolResult, error) {
+func handleProcessExportImpl(request mcp.CallToolRequest) (*mcp.CallToolResult, error) {
 	arguments := request.GetArguments()
 	filePath, ok := arguments["export_file_path"].(string)
 	if !ok || filePath == "" {
@@ -171,7 +171,7 @@ func handleProcessExportImpl(ctx context.Context, request mcp.CallToolRequest, c
 	}, nil
 }
 
-func handleAnalyzeExportImpl(ctx context.Context, request mcp.CallToolRequest, clientManager *clients.ClientManager) (*mcp.CallToolResult, error) {
+func handleAnalyzeExportImpl(request mcp.CallToolRequest) (*mcp.CallToolResult, error) {
 	arguments := request.GetArguments()
 	filePath, ok := arguments["export_file_path"].(string)
 	if !ok || filePath == "" {

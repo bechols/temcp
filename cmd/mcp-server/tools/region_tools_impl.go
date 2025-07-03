@@ -32,7 +32,7 @@ func RegisterRegionToolsImpl(mcpServer *server.MCPServer, cfg *config.Config, cl
 			mcp.WithDescription("List all available Temporal Cloud regions"),
 		),
 		func(ctx context.Context, request mcp.CallToolRequest) (*mcp.CallToolResult, error) {
-			return handleListRegionsImpl(ctx, request, clientManager)
+			return handleListRegionsImpl(ctx, clientManager)
 		},
 	)
 }
@@ -101,7 +101,7 @@ func handleGetRegionImpl(ctx context.Context, request mcp.CallToolRequest, clien
 	}, nil
 }
 
-func handleListRegionsImpl(ctx context.Context, request mcp.CallToolRequest, clientManager *clients.ClientManager) (*mcp.CallToolResult, error) {
+func handleListRegionsImpl(ctx context.Context, clientManager *clients.ClientManager) (*mcp.CallToolResult, error) {
 	getRegionsReq := &cloudservice.GetRegionsRequest{}
 	var result interface{}
 	var err error
