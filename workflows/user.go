@@ -31,6 +31,7 @@ const (
 	SetUserNamespaceAccessWorkflowType       = workflowPrefix + "set-user-namespace-access"
 	ReconcileUserWorkflowType                = workflowPrefix + "reconcile-user"
 	ReconcileUsersWorkflowType               = workflowPrefix + "reconcile-users"
+	GetAccountAccessWorkflowType             = workflowPrefix + "get-account-access"
 
 	// reconcile outcomes
 	ReconcileOutcomeCreated   = "created"
@@ -70,6 +71,7 @@ type (
 		UpdateUser(ctx workflow.Context, in *cloudservice.UpdateUserRequest) (*cloudservice.UpdateUserResponse, error)
 		DeleteUser(ctx workflow.Context, in *cloudservice.DeleteUserRequest) (*cloudservice.DeleteUserResponse, error)
 		SetUserNamespaceAccess(ctx workflow.Context, in *cloudservice.SetUserNamespaceAccessRequest) (*cloudservice.SetUserNamespaceAccessResponse, error)
+		GetAccountAccess(ctx workflow.Context, userID string) (*identity.AccountAccess, error)
 		ReconcileUser(ctx workflow.Context, in *ReconcileUserInput) (*ReconcileUserOutput, error)
 		ReconcileUsers(ctx workflow.Context, in *ReconcileUsersInput) (*ReconcileUsersOutput, error)
 	}
@@ -94,6 +96,7 @@ func registerUserWorkflows(w worker.Worker, wf UserWorkflows) {
 		UpdateUserWorkflowType:                   wf.UpdateUser,
 		DeleteUserWorkflowType:                   wf.DeleteUser,
 		SetUserNamespaceAccessWorkflowType:       wf.SetUserNamespaceAccess,
+		GetAccountAccessWorkflowType:             wf.GetAccountAccess,
 		ReconcileUserWorkflowType:                wf.ReconcileUser,
 		ReconcileUsersWorkflowType:               wf.ReconcileUsers,
 	} {
@@ -177,6 +180,20 @@ func (w *workflows) DeleteUser(ctx workflow.Context, in *cloudservice.DeleteUser
 // Set user namespace access
 func (w *workflows) SetUserNamespaceAccess(ctx workflow.Context, in *cloudservice.SetUserNamespaceAccessRequest) (*cloudservice.SetUserNamespaceAccessResponse, error) {
 	return activities.SetUserNamespaceAccess(withInfiniteRetryActivityOptions(ctx), in)
+}
+
+// Get account access for a user
+func (w *workflows) GetAccountAccess(ctx workflow.Context, userID string) (*identity.AccountAccess, error) {
+	resp, err := w.GetUser(ctx, &cloudservice.GetUserRequest{
+		UserId: userID,
+	})
+	if err != nil {
+		return nil, err
+	}
+	if resp.User == nil || resp.User.Spec == nil || resp.User.Spec.Access == nil {
+		return nil, fmt.Errorf("user %s has no access information", userID)
+	}
+	return resp.User.Spec.Access.GetAccountAccess(), nil
 }
 
 func (w *workflows) reconcileUser(ctx workflow.Context, spec *identity.UserSpec, user *identity.User) (*ReconcileUserOutput, error) {
