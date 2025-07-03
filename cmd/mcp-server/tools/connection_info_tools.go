@@ -30,40 +30,71 @@ Relevant if you are updating code to connect to Temporal Cloud. When updating co
 
 Temporal Cloud acts as the Temporal Server, so you don't need to run a Temporal Server locally or update its configuration.
 
-## Official Documentation for connecting to Temporal Cloud
-- https://docs.temporal.io/develop/go/temporal-clients#connect-to-temporal-cloud (**Temporal Cloud Connection Guide (has links to Go, Typescript, Java, Python, .NET, and PHP documentation)**) 
-- https://github.com/temporalio/samples-go/tree/main/helloworld-apiKey (**Sample Go Code with API Key**: )
+Make sure you're using an up to date version of the Temporal SDK. As of July 3 2025, the latest version is 1.34.0.
 
 ## Key Connection Requirements
 
 ### 1. Use the right endpoint
-- Specify the correct Temporal Cloud endpoint to connect to
-- Format: region.api.temporal.io:7233
-- Replace region with the actual region of your Temporal Cloud namespace
+- **For API Key authentication**: Use temporal.io endpoints (e.g., us-east-1.api.temporal.io:7233)
+- **For mTLS authentication**: Use tmprl.cloud endpoints (e.g., namespace.account-id.tmprl.cloud:7233)
 
 ### 2. Namespace Configuration
 - Specify your Temporal Cloud namespace
 - Format: namespace.account-id.tmprl.cloud
 - Replace namespace and account-id with your actual values
 
-### 3. API Key Authentication
-- Set TEMPORAL_CLOUD_API_KEY environment variable
-- Use temporal.ClientOptions with the API key
+## Authentication Methods
 
-## Sample Connection Code
+### API Key Authentication
+Use temporal.io endpoints with API key credentials:
+
 ` + "```go" + `
-clientOptions := client.Options{
-    HostPort: <endpoint>,
-    Namespace: <namespace_id>.<account_id>,
-    ConnectionOptions: client.ConnectionOptions{TLS: &tls.Config{}},
+clientOpts := client.Options{
+    HostPort:  "us-east-1.api.temporal.io:7233", // Use temporal.io endpoint
+    Namespace: "namespace.account-id.tmprl.cloud",
     Credentials: client.NewAPIKeyStaticCredentials(apiKey),
+    ConnectionOptions: client.ConnectionOptions{
+        TLS: &tls.Config{},
+    },
 }
-c, err := client.Dial(clientOptions)
+c, err := client.Dial(clientOpts)
 ` + "```" + `
+
+### mTLS Authentication
+Use tmprl.cloud endpoints with client certificates:
+
+` + "```go" + `
+cert, err := tls.LoadX509KeyPair("client.pem", "client.key")
+if err != nil {
+    return fmt.Errorf("failed loading key pair: %w", err)
+}
+
+clientOpts := client.Options{
+    HostPort:  "namespace.account-id.tmprl.cloud:7233", // Use tmprl.cloud endpoint
+    Namespace: "namespace.account-id.tmprl.cloud",
+    ConnectionOptions: client.ConnectionOptions{
+        TLS: &tls.Config{
+            Certificates: []tls.Certificate{cert},
+        },
+    },
+}
+c, err := client.Dial(clientOpts)
+` + "```" + `
+
+## Important Notes
+- **Warning**: Using an API key with tmprl.cloud endpoints is invalid and will cause connection failures
+- **Warning**: Using mTLS certificates with temporal.io endpoints is invalid and will cause connection failures
+- Always match the endpoint domain with the correct authentication method
+- The namespace format is the same for both authentication methods
 
 Different languages have different ways to connect to Temporal Cloud.
 
-Refer to the documentation links above for complete setup instructions and sample code.`
+Refer to the documentation links below for additional setup instructions and sample code for other languages.
+
+## Official Documentation for connecting to Temporal Cloud
+- https://docs.temporal.io/develop/go/temporal-clients#connect-to-temporal-cloud (**Temporal Cloud Connection Guide (has links to Go, Typescript, Java, Python, .NET, and PHP documentation)**) 
+- https://github.com/temporalio/samples-go/tree/main/helloworld-apiKey (**Sample Go Code with API Key**: )
+`
 
 	return &mcp.CallToolResult{
 		Content: []mcp.Content{
