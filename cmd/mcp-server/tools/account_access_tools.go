@@ -19,7 +19,7 @@ func RegisterAccountAccessTools(mcpServer *server.MCPServer, cfg *config.Config,
 	// Register temporal_get_account_access tool
 	mcpServer.AddTool(
 		mcp.NewTool("temporal_get_account_access",
-			mcp.WithDescription("Get a user's account-level access role (owner, admin, developer, finance_admin, read)"),
+			mcp.WithDescription("Get a user's account-level access role (owner, admin, developer, finance_admin, read) - for users only, not service accounts"),
 			mcp.WithString("user_id", mcp.Description("User ID"), mcp.Required()),
 		),
 		func(ctx context.Context, request mcp.CallToolRequest) (*mcp.CallToolResult, error) {

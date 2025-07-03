@@ -26,9 +26,8 @@ npx @modelcontextprotocol/inspector ./mcp-server
 
 ### Connect in Browser
 1. Open the URL provided by the inspector (e.g., `http://localhost:6274`)
-2. In the Inspector UI, re-enter your API key in the environment variables section
-3. Click "Connect"
-4. Navigate to the "Tools" tab to test all tools interactively
+2. Click "Connect"
+3. Navigate to the "Tools" tab to test all tools interactively
 
 ## Usage with Cursor
 

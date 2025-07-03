@@ -19,7 +19,7 @@ func RegisterNamespaceAccessTools(mcpServer *server.MCPServer, cfg *config.Confi
 	// Register temporal_get_user_namespace_access tool
 	mcpServer.AddTool(
 		mcp.NewTool("temporal_get_user_namespace_access",
-			mcp.WithDescription("Get a user's access level for a specific namespace"),
+			mcp.WithDescription("Get a user's access level for a specific namespace - for users only, not service accounts"),
 			mcp.WithString("user_id", mcp.Description("User ID"), mcp.Required()),
 			mcp.WithString("namespace", mcp.Description("Namespace name"), mcp.Required()),
 		),
@@ -31,7 +31,7 @@ func RegisterNamespaceAccessTools(mcpServer *server.MCPServer, cfg *config.Confi
 	// Register temporal_set_user_namespace_access tool
 	mcpServer.AddTool(
 		mcp.NewTool("temporal_set_user_namespace_access",
-			mcp.WithDescription("Set or update a user's access level for a specific namespace"),
+			mcp.WithDescription("Set or update a user's access level for a specific namespace - for users only, not service accounts"),
 			mcp.WithString("user_id", mcp.Description("User ID"), mcp.Required()),
 			mcp.WithString("namespace", mcp.Description("Namespace name"), mcp.Required()),
 			mcp.WithString("permission", mcp.Description("Permission level: ADMIN, WRITE, or READ"), mcp.Required()),
