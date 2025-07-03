@@ -168,7 +168,6 @@ func handleWaitForOperationImpl(ctx context.Context, request mcp.CallToolRequest
 			// Wait before next poll
 			select {
 			case <-timeoutCtx.Done():
-				err = fmt.Errorf("timeout waiting for async operation to complete")
 				return &mcp.CallToolResult{
 					IsError: true,
 					Content: []mcp.Content{
