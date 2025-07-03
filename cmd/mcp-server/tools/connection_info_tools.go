@@ -35,7 +35,7 @@ Make sure you're using an up to date version of the Temporal SDK. As of July 3 2
 ## Key Connection Requirements
 
 ### 1. Use the right endpoint
-- **For API Key authentication**: Use temporal.io endpoints (e.g., us-east-1.api.temporal.io:7233)
+- **For API Key authentication**: Use temporal.io endpoints (e.g., us-east-1.aws.api.temporal.io:7233 - the regional endpoint will have both the region and the cloud provider, plus the temporal api suffix)
 - **For mTLS authentication**: Use tmprl.cloud endpoints (e.g., namespace.account-id.tmprl.cloud:7233)
 
 ### 2. Namespace Configuration
@@ -50,7 +50,7 @@ Use temporal.io endpoints with API key credentials:
 
 ` + "```go" + `
 clientOpts := client.Options{
-    HostPort:  "us-east-1.api.temporal.io:7233", // Use temporal.io endpoint
+    HostPort:  "us-east-1.aws.api.temporal.io:7233", // Use temporal.io endpoint
     Namespace: "namespace.account-id.tmprl.cloud",
     Credentials: client.NewAPIKeyStaticCredentials(apiKey),
     ConnectionOptions: client.ConnectionOptions{
