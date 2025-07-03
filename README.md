@@ -10,32 +10,33 @@ Stuff you can do:
   - Give service-account-1 access to namespace-foo
   - Add an API key for service-account-1
 
-## Use with MCP Inspector
+## Try with MCP Inspector
 
-![MCP Inspector Interface](./mcp-inspector.png)
+![MCP Inspector Interface](./docs/mcp-inspector.png)
 
-### Prerequisites
-1. Build the MCP server:
-   ```bash
-   go build -o mcp-server ./cmd/mcp-server
-   ```
-
-2. Export your API key:
+1. Export your API key:
    ```bash
    export TEMPORAL_CLOUD_API_KEY="your-temporal-cloud-api-key"
    ```
 
-### Launch Inspector
+2. Launch Inspector
+    ```bash
+    npx @modelcontextprotocol/inspector ./mcp-server
+    ```
+
+3. Open the URL provided by the inspector (e.g., `http://localhost:6274/?MCP_PROXY_AUTH_TOKEN=tokenhash`)
+4. Click "Connect"
+5. Navigate to the "Tools" tab to test all tools interactively
+
+## Use with Claude Code
+
+![Claude Code usage](./docs/claude-code.png)
+
 ```bash
-npx @modelcontextprotocol/inspector ./mcp-server
+claude mcp add temporal-cloud /path/to/mcp-server -e TEMPORAL_CLOUD_API_KEY="your-api-key"    
 ```
 
-### Connect in Browser
-1. Open the URL provided by the inspector (e.g., `http://localhost:6274`)
-2. Click "Connect"
-3. Navigate to the "Tools" tab to test all tools interactively
-
-## Usage with Cursor
+## Use with Cursor
 
 Configure `.cursor/mcp.json`:
 ```json
@@ -101,4 +102,5 @@ go build -o mcp-server ./cmd/mcp-server
 Note: per the MCP spec, the read-only tools should be resources. Everything's implemented as a tool because Cursor only supports tools for now.
 
 Based on https://github.com/temporalio/cloud-samples-go
+
 Uses https://github.com/mark3labs/mcp-go
