@@ -79,3 +79,5 @@ The MCP server provides 13 tools for managing Temporal Cloud resources:
 **Export Processing:**
 - `temporal_process_export` - Process exported workflow history files
 - `temporal_analyze_export` - Analyze exported workflows and extract summaries
+
+Based on https://github.com/temporalio/cloud-samples-go
