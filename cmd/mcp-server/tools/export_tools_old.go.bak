@@ -1,0 +1,27 @@
+package tools
+
+import (
+	"context"
+
+	"github.com/mark3labs/mcp-go/mcp"
+	"github.com/mark3labs/mcp-go/server"
+	"github.com/temporalio/cloud-samples-go/cmd/mcp-server/clients"
+	"github.com/temporalio/cloud-samples-go/cmd/mcp-server/config"
+)
+
+// TODO: Implement export processing tools
+// - temporal_process_export
+
+// RegisterExportTools registers all export processing tools with the MCP server
+func RegisterExportTools(mcpServer *server.MCPServer, cfg *config.Config, clientManager *clients.ClientManager) {
+	// TODO: Implement tool registration
+}
+
+// Tool handler functions - TODO: Implement these
+
+func handleProcessExport(ctx context.Context, request mcp.CallToolRequest) (*mcp.CallToolResult, error) {
+	// TODO: Extract export_file_path from request arguments
+	// TODO: Call export processing functionality
+	// TODO: Return result
+	return nil, nil
+}

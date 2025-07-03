@@ -1,0 +1,10 @@
+{
+    "mcpServers": {
+      "temporal-cloud": {
+        "command": "/Users/ben/code/temcp/mcp-server",
+        "env": {
+          "TEMPORAL_CLOUD_API_KEY": "eyJhbGciOiJFUzI1NiIsImtpZCI6Ild2dHdhQSJ9.eyJhY2NvdW50X2lkIjoiYTJkZDYiLCJhdWQiOlsidGVtcG9yYWwuaW8iXSwiZXhwIjoxNzU0MDE2Mjc4LCJpc3MiOiJ0ZW1wb3JhbC5pbyIsImp0aSI6ImE5bXdPaDdnVW51Mkx0cjRqWEF0UTFHTk81N1NpZnZmIiwia2V5X2lkIjoiYTltd09oN2dVbnUyTHRyNGpYQXRRMUdOTzU3U2lmdmYiLCJzdWIiOiI1YWRmOWI5ODllOGU0MjkyYmU2NzFiNjIxMjJkYjQ2YSJ9.LQPSFghcZuPibqZRhPUC1RLp8U6DSHnSSXqscIyGukDwO2SeMKM3SQyQeK6X3v1Z0qsEsf9j_fzGyrBWolb0qg"
+        }
+      }
+    }
+  }

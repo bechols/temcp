@@ -1,0 +1,34 @@
+package tools
+
+import (
+	"context"
+
+	"github.com/mark3labs/mcp-go/mcp"
+	"github.com/mark3labs/mcp-go/server"
+	"github.com/temporalio/cloud-samples-go/cmd/mcp-server/clients"
+	"github.com/temporalio/cloud-samples-go/cmd/mcp-server/config"
+)
+
+// TODO: Implement region management tools
+// - temporal_get_region
+// - temporal_list_regions
+
+// RegisterRegionTools registers all region management tools with the MCP server
+func RegisterRegionTools(mcpServer *server.MCPServer, cfg *config.Config, clientManager *clients.ClientManager) {
+	// TODO: Implement tool registration
+}
+
+// Tool handler functions - TODO: Implement these
+
+func handleGetRegion(ctx context.Context, request mcp.CallToolRequest) (*mcp.CallToolResult, error) {
+	// TODO: Extract region_id from request arguments
+	// TODO: Call GetRegion workflow
+	// TODO: Return result
+	return nil, nil
+}
+
+func handleListRegions(ctx context.Context, request mcp.CallToolRequest) (*mcp.CallToolResult, error) {
+	// TODO: Call GetAllRegions workflow
+	// TODO: Return result
+	return nil, nil
+}
