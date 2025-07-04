@@ -45,6 +45,15 @@ Make sure you're using an up to date version of the Temporal SDK. As of July 3 2
 
 ## Authentication Methods
 
+Store credentials in a .env file instead of asking the user to export on the command line.
+
+Running the workflow and the worker will likely require a shell command like: 
+` + "```bash" + `
+export $(cat .env | xargs) && go run start/main.go
+` + "```" + `
+
+Provide the actual commands required to run each of the workflow and the worker, including all necessary auth.
+
 ### API Key Authentication
 Use temporal.io regional endpoints with API key credentials:
 
