@@ -16,10 +16,7 @@ An MCP (Model Context Protocol) server that exposes Temporal Cloud operations as
 
 ## Demo
 
-<video width="800" controls>
-  <source src="./docs/temcp-demo.mp4" type="video/mp4">
-  Your browser does not support the video tag.
-</video>
+https://github.com/user-attachments/assets/fdf0b7b5-ca4d-4059-835e-77d30b1a212f
 
 ### What's happening? 
 
