@@ -2,31 +2,36 @@
 
 An MCP (Model Context Protocol) server that exposes Temporal Cloud operations as tools for AI assistants.
 
-Stuff you can do:
+## What you can do with it
 
-  - What namespaces do I have access to?
-  - What does Jane Doe have access to?
-  - Create namespace-foo in aws us west with 1 day retention
-  - Give service-account-1 access to namespace-foo
-  - Add an API key for service-account-1
+  - Learn about your Cloud environment
+    - "What namespaces do I have access to?"
+    - "What does Jane Doe have access to?"
+  - Directly edit Cloud resources
+    - "Create namespace-foo in aws us west with 1 day retention"
+    - "Give service-account-1 access to namespace-foo"
+    - "Add an API key for service-account-1"
+  - Update application code to work with your Cloud resources
+    - "Make this Temporal project work with my Cloud account"
 
-## Try with MCP Inspector
+## Demo
 
-![MCP Inspector Interface](./docs/mcp-inspector.png)
+![Money Transfer Project Template](./docs/demo-on-money-transfer-project-template-go.mp4)
 
-1. Export your API key:
-   ```bash
-   export TEMPORAL_CLOUD_API_KEY="your-temporal-cloud-api-key"
-   ```
+### What's happening? 
 
-2. Launch Inspector
-    ```bash
-    npx @modelcontextprotocol/inspector ./mcp-server
-    ```
+Starting from a simple Temporal project (not set up for Cloud), temcp helps Claude Code set up the Temporal Cloud resources (namespace, service account access, API key) needed to run the project, and it updates the actual application code to connect to Cloud with the newly created credentials.
 
-3. Open the URL provided by the inspector (e.g., `http://localhost:6274/?MCP_PROXY_AUTH_TOKEN=tokenhash`)
-4. Click "Connect"
-5. Navigate to the "Tools" tab to test all tools interactively
+### Setup before the video:
+
+1. Clone https://github.com/temporalio/money-transfer-project-template-go/
+2. Add temcp to Claude Code (instructions below)
+
+### Prompt given to Claude Code:
+
+```bash
+I want to use this repo with Temporal Cloud. Create a namespace, add a service account, and generate an API key. Use that plus the connection info tool to update the workflow and worker to connect to Cloud.  
+```
 
 ## Use with Claude Code
 
@@ -52,6 +57,24 @@ Configure `.cursor/mcp.json`:
   }
 }
 ```
+
+## Use with MCP Inspector
+
+![MCP Inspector Interface](./docs/mcp-inspector.png)
+
+1. Export your API key:
+   ```bash
+   export TEMPORAL_CLOUD_API_KEY="your-temporal-cloud-api-key"
+   ```
+
+2. Launch Inspector
+    ```bash
+    npx @modelcontextprotocol/inspector ./mcp-server
+    ```
+
+3. Open the URL provided by the inspector (e.g., `http://localhost:6274/?MCP_PROXY_AUTH_TOKEN=tokenhash`)
+4. Click "Connect"
+5. Navigate to the "Tools" tab to test all tools interactively
 
 ## Building the MCP Server
 
