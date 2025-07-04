@@ -63,6 +63,12 @@ test_connection_info() {
     echo '{"jsonrpc": "2.0", "id": 10, "method": "tools/call", "params": {"name": "temporal_cloud_connection_info", "arguments": {}}}'
 }
 
+# Service account tools
+test_create_service_account() {
+    init_server
+    echo '{"jsonrpc": "2.0", "id": 11, "method": "tools/call", "params": {"name": "temporal_create_service_account", "arguments": {"name": "test-sa", "namespace": "test-namespace", "permission": "admin", "description": "Test service account"}}}'
+}
+
 # Show usage if no arguments
 show_usage() {
     echo "Usage: $0 [command]"
@@ -78,6 +84,7 @@ show_usage() {
     echo "  test_create_namespace - Test temporal_create_namespace tool (with API key auth default)"
     echo "  test_get_operation - Test temporal_get_async_operation tool"
     echo "  test_connection_info - Test temporal_cloud_connection_info tool"
+    echo "  test_create_service_account - Test temporal_create_service_account tool"
     echo "  all               - Run all tests"
     echo ""
     echo "Example usage:"
@@ -127,6 +134,9 @@ case "${1:-}" in
         ;;
     "test_connection_info")
         test_connection_info
+        ;;
+    "test_create_service_account")
+        test_create_service_account
         ;;
     "all")
         run_all_tests
