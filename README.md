@@ -29,9 +29,7 @@ Starting from a simple Temporal project (not set up for Cloud), temcp helps Clau
 
 ### Prompt given to Claude Code:
 
-```bash
-I want to use this repo with Temporal Cloud. Create a namespace, add a service account, and generate an API key. Use that plus the connection info tool to update the workflow and worker to connect to Cloud.  
-```
+>I want to use this repo with Temporal Cloud. Create a namespace, add a service account, and generate an API key. Use that plus the connection info tool to update the workflow and worker to connect to Cloud.
 
 ## Use with Claude Code
 
