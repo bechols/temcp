@@ -15,7 +15,7 @@ func RegisterConnectionInfoTools(mcpServer *server.MCPServer, cfg *config.Config
 	// Register temporal_cloud_connection_info tool
 	mcpServer.AddTool(
 		mcp.NewTool("temporal_cloud_connection_info",
-			mcp.WithDescription("How to connect workers and workflows to Temporal Cloud, including API key auth configuration."),
+			mcp.WithDescription("Very important for updating code to work with Temporal Cloud. Describes how to configure workflow and worker code to connect to Temporal Cloud. Includes details about endpoints, namespaces, and auth methods (API key and mTLS)"),
 		),
 		func(ctx context.Context, request mcp.CallToolRequest) (*mcp.CallToolResult, error) {
 			return handleConnectionInfoImpl()
@@ -26,7 +26,7 @@ func RegisterConnectionInfoTools(mcpServer *server.MCPServer, cfg *config.Config
 func handleConnectionInfoImpl() (*mcp.CallToolResult, error) {
 	connectionInfo := `# Temporal Cloud Connection Information
 
-Relevant if you are updating code to connect to Temporal Cloud. When updating code to connect to Temporal Cloud, make sure to update both the workflow and worker code to use the correct connection information (endpoint and namespace) and the correct authentication method.
+When updating code to connect to Temporal Cloud, make sure to update both the workflow and worker code to use the correct connection information (endpoint and namespace) and the correct authentication method.
 
 Temporal Cloud acts as the Temporal Server, so you don't need to run a Temporal Server locally or update its configuration.
 
@@ -35,7 +35,7 @@ Make sure you're using an up to date version of the Temporal SDK. As of July 3 2
 ## Key Connection Requirements
 
 ### 1. Use the right endpoint
-- **For API Key authentication**: Use temporal.io endpoints (e.g., us-east-1.aws.api.temporal.io:7233 - the regional endpoint will have both the region and the cloud provider, plus the temporal api suffix)
+- **For API Key authentication**: Use temporal.io regional endpoints (e.g., us-east-1.aws.api.temporal.io:7233 - the regional endpoint will have both the region and the cloud provider, plus the temporal api suffix)
 - **For mTLS authentication**: Use tmprl.cloud endpoints (e.g., namespace.account-id.tmprl.cloud:7233)
 
 ### 2. Namespace Configuration
@@ -46,11 +46,11 @@ Make sure you're using an up to date version of the Temporal SDK. As of July 3 2
 ## Authentication Methods
 
 ### API Key Authentication
-Use temporal.io endpoints with API key credentials:
+Use temporal.io regional endpoints with API key credentials:
 
 ` + "```go" + `
 clientOpts := client.Options{
-    HostPort:  "us-east-1.aws.api.temporal.io:7233", // Use temporal.io endpoint
+    HostPort:  "us-east-1.aws.api.temporal.io:7233", // Use temporal.io regional endpoint
     Namespace: "namespace.account-id.tmprl.cloud",
     Credentials: client.NewAPIKeyStaticCredentials(apiKey),
     ConnectionOptions: client.ConnectionOptions{
