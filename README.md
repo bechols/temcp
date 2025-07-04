@@ -16,11 +16,14 @@ An MCP (Model Context Protocol) server that exposes Temporal Cloud operations as
 
 ## Demo
 
-![Money Transfer Project Template](./docs/demo-on-money-transfer-project-template-go.mp4)
+<video width="800" controls>
+  <source src="./docs/temcp-demo.mp4" type="video/mp4">
+  Your browser does not support the video tag.
+</video>
 
 ### What's happening? 
 
-Starting from a simple Temporal project (not set up for Cloud), temcp helps Claude Code set up the Temporal Cloud resources (namespace, service account access, API key) needed to run the project, and it updates the actual application code to connect to Cloud with the newly created credentials.
+Starting from a simple Temporal project (not set up for Cloud), temcp helps Claude Code create the Temporal Cloud resources (namespace, service account access, API key) needed to run the project, and it updates the actual application code to connect to Cloud with the newly created credentials.
 
 ### Setup before the video:
 
@@ -82,6 +85,12 @@ Configure `.cursor/mcp.json`:
 go build -o mcp-server ./cmd/mcp-server
 ```
 
+## Test with CLI
+
+```bash
+./test_mcp
+```
+
 ## Available Tools
 
 **User Info:**
@@ -115,6 +124,7 @@ go build -o mcp-server ./cmd/mcp-server
 
 **Service Account Management:**
 - `temporal_list_service_accounts` - List Temporal Cloud service accounts
+- `temporal_create_service_account` - Create a new service account with namespace access
 - `temporal_get_service_account_namespace_access` - Get namespace access permissions for a service account
 - `temporal_set_service_account_namespace_access` - Set namespace access permissions for a service account
 
