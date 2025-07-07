@@ -5,7 +5,7 @@ An MCP (Model Context Protocol) server that exposes Temporal Cloud operations as
 ## What you can do with it
 
   - Learn about your Cloud environment
-    - "What namespaces do I have access to?"
+    - "How are my namespaces configured?"
     - "What does Jane Doe have access to?"
   - Directly edit Cloud resources
     - "Create namespace-foo in aws us west with 1 day retention"
